@@ -183,7 +183,7 @@ export const footerLinks: ActionLink[] = [
 	{ label: 'Bartosz Maćkiewicz', href: 'https://bartoszmackiewicz.pl', external: true },
 	{
 		label: 'Faculty of Philosophy @ University of Warsaw',
-		href: 'https://filozofua.uw.edu.pl',
+		href: 'https://filozofia.uw.edu.pl',
 		external: true,
 	},
 ];
