@@ -634,6 +634,12 @@ code {
 	gap: 1.25rem;
 }
 
+.page-intro--text-only .page-intro__copy {
+	grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.92fr);
+	gap: 0.85rem 2rem;
+	align-items: start;
+}
+
 .page-intro--with-art {
 	grid-template-columns: minmax(0, 1.15fr) minmax(250px, 0.85fr);
 	align-items: start;
@@ -651,8 +657,26 @@ code {
 	max-width: 14ch;
 }
 
+.page-intro--text-only h1,
+.page-intro--text-only .eyebrow {
+	grid-column: 1;
+}
+
 .page-intro .lede {
 	max-width: 34ch;
+}
+
+.page-intro--text-only .lede {
+	grid-column: 2;
+	max-width: 30ch;
+	margin-top: 0.2rem;
+	padding-left: 1.25rem;
+	border-left: 1px solid var(--rule);
+}
+
+.page-intro--text-only .button-row,
+.page-intro--text-only .detail-grid {
+	grid-column: 1 / -1;
 }
 
 .page-intro__art {
@@ -1278,6 +1302,23 @@ code {
 	.companion-layout,
 	.team-card {
 		grid-template-columns: 1fr;
+	}
+
+	.page-intro--text-only .page-intro__copy {
+		grid-template-columns: 1fr;
+	}
+
+	.page-intro--text-only .lede,
+	.page-intro--text-only .button-row,
+	.page-intro--text-only .detail-grid {
+		grid-column: 1;
+	}
+
+	.page-intro--text-only .lede {
+		max-width: 34ch;
+		margin-top: 0;
+		padding-left: 0;
+		border-left: 0;
 	}
 
 	.tracks-grid {
