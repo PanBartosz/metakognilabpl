@@ -8,7 +8,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="timeline">
+<div class="timeline" data-timeline-motion>
 	{
 		items.map((item) => (
 			<article class="timeline-item paper-panel">
@@ -31,3 +31,42 @@ const { items } = Astro.props;
 		))
 	}
 </div>
+
+<script is:inline>
+	(() => {
+		const updateTimelineProgress = () => {
+			const timelines = document.querySelectorAll('[data-timeline-motion]');
+			if (!timelines.length) return;
+
+			const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+
+			timelines.forEach((timeline) => {
+				const rect = timeline.getBoundingClientRect();
+				const triggerY = viewportHeight * 0.36;
+				const rawProgress = (triggerY - rect.top) / rect.height;
+				const progress = Math.max(0, Math.min(1, rawProgress));
+				timeline.style.setProperty('--timeline-progress', `${(progress * 100).toFixed(2)}%`);
+			});
+		};
+
+		if (!window.__metaTimelineMotionBound) {
+			window.__metaTimelineMotionBound = true;
+
+			let ticking = false;
+			const queueUpdate = () => {
+				if (ticking) return;
+				ticking = true;
+				window.requestAnimationFrame(() => {
+					ticking = false;
+					updateTimelineProgress();
+				});
+			};
+
+			window.addEventListener('scroll', queueUpdate, { passive: true });
+			window.addEventListener('resize', queueUpdate);
+			document.addEventListener('astro:page-load', queueUpdate);
+		}
+
+		updateTimelineProgress();
+	})();
+</script>
