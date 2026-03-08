@@ -873,6 +873,44 @@ code {
 	padding-top: 0.15rem;
 }
 
+.supports-output-motion .page-outputs [data-output-section],
+.supports-output-motion .page-outputs [data-output-entry] {
+	opacity: 0;
+	transform: translateY(10px);
+	will-change: opacity, transform;
+}
+
+.supports-output-motion .page-outputs [data-output-section] {
+	transition:
+		opacity 340ms ease,
+		transform 340ms ease;
+	transition-delay: calc(var(--output-section-index, 0) * 70ms);
+}
+
+.supports-output-motion .page-outputs [data-output-entry] {
+	transition:
+		opacity 360ms ease,
+		transform 360ms ease,
+		border-color 200ms ease;
+	transition-delay: calc(var(--output-entry-index, 0) * 58ms);
+}
+
+.supports-output-motion .page-outputs [data-output-section].is-visible,
+.supports-output-motion .page-outputs [data-output-entry].is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.supports-output-motion .page-outputs [data-output-section] .section-heading h2 {
+	display: inline-block;
+	background: linear-gradient(var(--accent-cool), var(--accent-cool)) left bottom / 0 1px no-repeat;
+	transition: background-size 320ms ease;
+}
+
+.supports-output-motion .page-outputs [data-output-section].is-visible .section-heading h2 {
+	background-size: 100% 1px;
+}
+
 .hero-grid,
 .home-grid,
 .home-cta-grid,
