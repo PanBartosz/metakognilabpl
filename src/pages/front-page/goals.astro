@@ -1,0 +1,28 @@
+---
+import PageIntro from '../../components/PageIntro.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { goalsPage } from '../../data/site';
+---
+
+<SiteLayout title="Goals" currentPath="/front-page/goals/">
+	<PageIntro title={goalsPage.title} lede={goalsPage.lede} />
+
+	<section class="section-stack">
+		{
+			goalsPage.sections.map((section) => (
+				<article class="paper-panel text-section">
+					<p class="eyebrow">{section.label}</p>
+					<h2>{section.title}</h2>
+					{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				</article>
+			))
+		}
+	</section>
+
+	<article class="paper-panel text-section">
+		<h2>Expected results</h2>
+		<ul class="feature-list">
+			{goalsPage.outcomes.map((outcome) => <li>{outcome}</li>)}
+		</ul>
+	</article>
+</SiteLayout>

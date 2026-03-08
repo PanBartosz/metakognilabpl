@@ -1,0 +1,55 @@
+---
+import type { ActionLink, DetailItem, Motif } from '../data/site';
+
+interface Props {
+	eyebrow?: string;
+	title: string;
+	lede: string;
+	details?: DetailItem[];
+	actions?: ActionLink[];
+	motif?: Motif;
+}
+
+const { eyebrow, title, lede, details = [], actions = [], motif } = Astro.props;
+---
+
+<section class:list={['page-intro', 'paper-panel', motif && 'page-intro--with-art']}>
+	<div class="page-intro__copy">
+		{eyebrow ? <p class="eyebrow">{eyebrow}</p> : null}
+		<h1>{title}</h1>
+		<p class="lede">{lede}</p>
+
+		{
+			actions.length ? (
+				<div class="button-row">
+					{actions.map((action) => (
+						<a
+							class="button-link"
+							href={action.href}
+							target={action.external ? '_blank' : undefined}
+							rel={action.external ? 'noreferrer' : undefined}
+							download={action.download}
+						>
+							{action.label}
+						</a>
+					))}
+				</div>
+			) : null
+		}
+
+		{
+			details.length ? (
+				<dl class="detail-grid">
+					{details.map((detail) => (
+						<div>
+							<dt>{detail.label}</dt>
+							<dd>{detail.value}</dd>
+						</div>
+					))}
+				</dl>
+			) : null
+		}
+	</div>
+
+	{motif ? <div class="page-intro__art"><div class:list={['page-intro__media', 'motif', `motif--${motif}`]} aria-hidden="true"></div></div> : null}
+</section>

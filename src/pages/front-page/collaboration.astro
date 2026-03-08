@@ -1,0 +1,34 @@
+---
+import PageIntro from '../../components/PageIntro.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { collaborationPage } from '../../data/site';
+---
+
+<SiteLayout title="Collaboration" currentPath="/front-page/collaboration/">
+	<PageIntro title={collaborationPage.title} lede={collaborationPage.lede} />
+
+	<section class="contact-layout">
+		<article class="paper-panel">
+			<h2>Ways to collaborate</h2>
+			{collaborationPage.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+
+			<ul class="feature-list">
+				{collaborationPage.opportunities.map((item) => <li>{item}</li>)}
+			</ul>
+		</article>
+
+		<article class="paper-panel contact-panel utility-panel">
+			<h2>Contact</h2>
+			<div class="contact-list">
+				{
+					collaborationPage.contacts.map((contact) => (
+						<div class="contact-card">
+							<p>{contact.label}</p>
+							<a href={contact.href}>{contact.value}</a>
+						</div>
+					))
+				}
+			</div>
+		</article>
+	</section>
+</SiteLayout>

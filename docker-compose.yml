@@ -1,0 +1,8 @@
+services:
+  site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-4432}:80"
+    restart: unless-stopped

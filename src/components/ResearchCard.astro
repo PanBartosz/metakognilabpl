@@ -1,0 +1,21 @@
+---
+import type { ResearchTrack } from '../data/site';
+
+interface Props {
+	track: ResearchTrack;
+}
+
+const { track } = Astro.props;
+---
+
+<article class:list={['track-card', `track-card--${track.layout}`]}>
+	<a class="track-card__link" href={track.href}>
+		<div class:list={['track-card__media', 'motif', `motif--${track.motif}`]} aria-hidden="true"></div>
+		<div class="track-card__body">
+			<p class="eyebrow">{track.label}</p>
+			<h2>{track.title}</h2>
+			<p>{track.description}</p>
+			<span class="track-card__cta">Open section</span>
+		</div>
+	</a>
+</article>

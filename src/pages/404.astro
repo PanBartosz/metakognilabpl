@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="Not found" currentPath="/404/">
+	<section class="paper-panel error-panel">
+		<p class="eyebrow">404</p>
+		<h1>Page not found</h1>
+		<p>
+			The page you requested could not be found. Start again from the homepage or open one of the main
+			sections.
+		</p>
+		<div class="button-row">
+			<a class="button-link" href="/">Homepage</a>
+			<a class="button-link" href="/front-page/resources/">Resources</a>
+		</div>
+	</section>
+</SiteLayout>

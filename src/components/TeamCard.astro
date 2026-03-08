@@ -1,0 +1,59 @@
+---
+import type { TeamMember } from '../data/site';
+
+interface Props {
+	member: TeamMember;
+}
+
+const { member } = Astro.props;
+const initials = member.name
+	.split(/\s+/)
+	.filter(Boolean)
+	.map((part) => part[0])
+	.slice(0, 2)
+	.join('');
+---
+
+<article class="team-card">
+	<div class="team-card__media">
+		<div
+			class:list={[
+				'team-card__media-frame',
+				'motif',
+				`motif--${member.motif}`,
+				member.image && 'team-card__media-frame--photo',
+			]}
+		>
+			{
+				member.image ? (
+					<img
+						src={member.image.src}
+						width={member.image.width}
+						height={member.image.height}
+						alt={member.name}
+						style={`object-fit:${member.imageFit ?? 'cover'}`}
+					/>
+				) : (
+					<div class="team-card__initials" aria-hidden="true">{initials}</div>
+				)
+			}
+		</div>
+	</div>
+	<div class="team-card__body paper-panel">
+		{member.badge ? <p class="eyebrow">{member.badge}</p> : null}
+		<h2>{member.name}</h2>
+		<p class="team-card__subtitle">{member.subtitle}</p>
+		<p>{member.bio}</p>
+		{
+			member.links.length ? (
+				<div class="chip-row">
+					{member.links.map((link) => (
+						<a href={link.href} target="_blank" rel="noreferrer">
+							{link.label}
+						</a>
+					))}
+				</div>
+			) : null
+		}
+	</div>
+</article>

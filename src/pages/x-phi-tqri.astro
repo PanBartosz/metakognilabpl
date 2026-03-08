@@ -1,0 +1,9 @@
+---
+import ResourceCompanionTemplate from '../components/ResourceCompanionTemplate.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { tqriResourcePage } from '../data/site';
+---
+
+<SiteLayout title={tqriResourcePage.title} currentPath="/x-phi-tqri/">
+	<ResourceCompanionTemplate page={tqriResourcePage} />
+</SiteLayout>

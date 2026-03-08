@@ -1,0 +1,86 @@
+---
+import type { ConferenceCompanionPage } from '../data/site';
+
+interface Props {
+	page: ConferenceCompanionPage;
+}
+
+const { page } = Astro.props;
+---
+
+<section class="companion-layout">
+	<article class="paper-panel companion-panel">
+		<p class="eyebrow">{page.eyebrow}</p>
+		<h1>{page.title}</h1>
+		<p class="lede">{page.lede}</p>
+		{page.introParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+		{
+			page.primaryActions.length ? (
+				<div class="button-row">
+					{page.primaryActions.map((action) => (
+						<a
+							class="button-link"
+							href={action.href}
+							target={action.external ? '_blank' : undefined}
+							rel={action.external ? 'noreferrer' : undefined}
+							download={action.download}
+						>
+							{action.label}
+						</a>
+					))}
+				</div>
+			) : null
+		}
+	</article>
+
+	<article class="paper-panel contact-panel utility-panel">
+		<h2>{page.asideTitle}</h2>
+		<ul class="resource-list">
+			{page.asideLinks.map((item) => (
+				<li>
+					<a
+						href={item.href}
+						target={item.external ? '_blank' : undefined}
+						rel={item.external ? 'noreferrer' : undefined}
+						download={item.download}
+					>
+						{item.title}
+					</a>
+					{item.description ? <p>{item.description}</p> : null}
+				</li>
+			))}
+		</ul>
+	</article>
+</section>
+
+<section class="companion-secondary-grid">
+	<article class="paper-panel companion-panel">
+		<p class="eyebrow">{page.teamEyebrow}</p>
+		<h2>{page.teamTitle}</h2>
+		<ul class="name-list name-list--bulleted">
+			{page.team.map((member) => <li>{member}</li>)}
+		</ul>
+	</article>
+
+	<article class="paper-panel utility-panel companion-panel">
+		<p class="eyebrow">{page.supportEyebrow}</p>
+		<h2>{page.supportTitle}</h2>
+		{page.supportParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+		{
+			page.supportActions?.length ? (
+				<div class="chip-row output-links">
+					{page.supportActions.map((action) => (
+						<a
+							href={action.href}
+							target={action.external ? '_blank' : undefined}
+							rel={action.external ? 'noreferrer' : undefined}
+							download={action.download}
+						>
+							{action.label}
+						</a>
+					))}
+				</div>
+			) : null
+		}
+	</article>
+</section>

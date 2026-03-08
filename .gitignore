@@ -1,0 +1,11 @@
+node_modules
+.astro
+dist
+.DS_Store
+npm-debug.log*
+coverage
+output
+meta.kognilab.pl
+.playwright-cli
+tmp
+varia

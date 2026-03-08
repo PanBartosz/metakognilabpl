@@ -1,0 +1,32 @@
+---
+import PageIntro from '../../components/PageIntro.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { blogEntries, blogPage } from '../../data/site';
+
+const entries = [...blogEntries].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<SiteLayout title="Blog" currentPath="/front-page/blog/">
+	<PageIntro
+		title={blogPage.title}
+		lede={blogPage.lede}
+	/>
+
+	<section class="archive-stack">
+		{
+			entries.map((entry) => (
+					<article class="paper-panel archive-entry">
+						<div class="meta-row">
+							<span>{entry.href === '/espp2025/' ? 'Conference page' : 'Update'}</span>
+							<span>{entry.displayDate}</span>
+						</div>
+					<h2>{entry.title}</h2>
+					<p>{entry.excerpt}</p>
+					<a class="text-link" href={entry.href}>
+						{entry.href === '/espp2025/' ? 'Open conference page' : 'Read post'}
+					</a>
+				</article>
+			))
+		}
+	</section>
+</SiteLayout>

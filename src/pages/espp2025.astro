@@ -1,0 +1,9 @@
+---
+import ConferenceCompanionTemplate from '../components/ConferenceCompanionTemplate.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { esppPage } from '../data/site';
+---
+
+<SiteLayout title={esppPage.title} currentPath="/espp2025/">
+	<ConferenceCompanionTemplate page={esppPage} />
+</SiteLayout>

@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import type { ResourceCompanionPage } from '../data/site';
+
+interface Props {
+	page: ResourceCompanionPage;
+}
+
+const { page } = Astro.props;
+---
+
+<section class="companion-layout">
+	<article class="paper-panel companion-panel">
+		<p class="eyebrow">{page.eyebrow}</p>
+		<h1>{page.title}</h1>
+		<p class="lede">{page.lede}</p>
+		{page.introParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+		{
+			page.primaryActions.length ? (
+				<div class="button-row">
+					{page.primaryActions.map((action) => (
+						<a
+							class="button-link"
+							href={action.href}
+							target={action.external ? '_blank' : undefined}
+							rel={action.external ? 'noreferrer' : undefined}
+							download={action.download}
+						>
+							{action.label}
+						</a>
+					))}
+				</div>
+			) : null
+		}
+	</article>
+
+	<article class="paper-panel contact-panel utility-panel">
+		<h2>{page.asideTitle}</h2>
+		<ul class="resource-list">
+			{page.asideLinks.map((item) => (
+				<li>
+					<a
+						href={item.href}
+						target={item.external ? '_blank' : undefined}
+						rel={item.external ? 'noreferrer' : undefined}
+						download={item.download}
+					>
+						{item.title}
+					</a>
+					{item.description ? <p>{item.description}</p> : null}
+				</li>
+			))}
+		</ul>
+	</article>
+</section>
+
+{
+	page.previews?.length ? (
+		<section class="paper-panel companion-panel">
+			{page.previewEyebrow ? <p class="eyebrow">{page.previewEyebrow}</p> : null}
+			{page.previewTitle ? <h2>{page.previewTitle}</h2> : null}
+
+			<div class="preview-grid">
+				{page.previews.map((preview) => (
+					<article class="preview-card">
+						<div class="resource-figure preview-card__figure">
+							<Image src={preview.image} alt={preview.alt} widths={[720]} sizes="(max-width: 1080px) 100vw, 48vw" />
+						</div>
+						<div class="preview-card__copy">
+							<h3>{preview.title}</h3>
+							<p>{preview.caption}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+	) : null
+}
+
+<section class="companion-secondary-grid">
+	<article class="paper-panel companion-panel">
+		<p class="eyebrow">{page.detailEyebrow}</p>
+		<h2>{page.detailTitle}</h2>
+		{page.detailParagraphs?.map((paragraph) => <p>{paragraph}</p>)}
+		{page.detailList?.length ? <ul class="feature-list">{page.detailList.map((item) => <li>{item}</li>)}</ul> : null}
+	</article>
+
+	<article class="paper-panel utility-panel companion-panel">
+		<p class="eyebrow">{page.supportEyebrow}</p>
+		<h2>{page.supportTitle}</h2>
+		{page.supportParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+		{
+			page.supportActions?.length ? (
+				<div class="chip-row output-links">
+					{page.supportActions.map((action) => (
+						<a
+							href={action.href}
+							target={action.external ? '_blank' : undefined}
+							rel={action.external ? 'noreferrer' : undefined}
+							download={action.download}
+						>
+							{action.label}
+						</a>
+					))}
+				</div>
+			) : null
+		}
+	</article>
+</section>

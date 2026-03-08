@@ -1,0 +1,9 @@
+services:
+  site:
+    image: ghcr.io/panbartosz/metakognilabpl:latest
+    pull_policy: always
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    ports:
+      - "${PORT:-4432}:80"
+    restart: unless-stopped

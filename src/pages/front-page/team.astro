@@ -1,0 +1,14 @@
+---
+import PageIntro from '../../components/PageIntro.astro';
+import TeamCard from '../../components/TeamCard.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { teamMembers, teamPage } from '../../data/site';
+---
+
+<SiteLayout title="Team" currentPath="/front-page/team/">
+	<PageIntro title={teamPage.title} lede={teamPage.lede} />
+
+	<section class="team-stack">
+		{teamMembers.map((member) => <TeamCard member={member} />)}
+	</section>
+</SiteLayout>

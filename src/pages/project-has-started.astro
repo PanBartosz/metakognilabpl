@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { startPost } from '../data/site';
+---
+
+<SiteLayout title={startPost.title} currentPath="/project-has-started/">
+	<article class="paper-panel prose-panel">
+		<p class="eyebrow">{startPost.eyebrow}</p>
+		<h1>{startPost.title}</h1>
+		<p class="lede">{startPost.lede}</p>
+		<p class="meta-stamp">{startPost.date}</p>
+		{startPost.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		<div class="text-link-row">
+			<a class="text-link" href="/front-page/blog/">Back to updates</a>
+			<a class="text-link" href="/">Project home</a>
+		</div>
+	</article>
+</SiteLayout>

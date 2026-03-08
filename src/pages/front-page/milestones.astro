@@ -1,0 +1,12 @@
+---
+import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { milestones, milestonesPage } from '../../data/site';
+---
+
+<SiteLayout title="Milestones" currentPath="/front-page/milestones/">
+	<PageIntro title={milestonesPage.title} lede={milestonesPage.lede} />
+
+	<MilestoneTimeline items={milestones} />
+</SiteLayout>

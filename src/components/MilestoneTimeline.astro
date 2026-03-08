@@ -1,0 +1,33 @@
+---
+import type { Milestone } from '../data/site';
+
+interface Props {
+	items: Milestone[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="timeline">
+	{
+		items.map((item) => (
+			<article class="timeline-item paper-panel">
+				<div class="timeline-item__meta">
+					<p class="eyebrow">{item.quarter}</p>
+					<p class="timeline-item__year">{item.year}</p>
+				</div>
+				<div class="timeline-item__body">
+					<h2>{item.title}</h2>
+					{item.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+					{
+						item.list?.length ? (
+							<ul class="timeline-list">
+								{item.list.map((listItem) => <li>{listItem}</li>)}
+							</ul>
+						) : null
+					}
+				</div>
+			</article>
+		))
+	}
+</div>

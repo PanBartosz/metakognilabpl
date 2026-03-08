@@ -1,0 +1,38 @@
+---
+import PageIntro from '../../components/PageIntro.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { resourcesPage, standaloneResources } from '../../data/site';
+
+const resourceGroups = [...new Set(standaloneResources.map((item) => item.group))];
+const showGroupHeadings = resourceGroups.length > 1;
+---
+
+<SiteLayout title="Resources" currentPath="/front-page/resources/">
+	<PageIntro title={resourcesPage.title} lede={resourcesPage.lede} />
+
+	<section class="section-stack">
+		{
+			resourceGroups.map((group) => (
+				<section class="resource-group">
+					{showGroupHeadings ? <div class="section-heading"><h2>{group}</h2></div> : null}
+
+					<div class="archive-stack">
+						{
+							standaloneResources
+								.filter((item) => item.group === group)
+								.map((item) => (
+									<article class="paper-panel archive-entry resource-card">
+										<h2>{item.title}</h2>
+										<p class="link-card__note">{item.description}</p>
+										<a class="text-link" href={item.href}>
+											{item.linkLabel ?? 'Open resource page'}
+										</a>
+									</article>
+								))
+						}
+					</div>
+				</section>
+			))
+		}
+	</section>
+</SiteLayout>

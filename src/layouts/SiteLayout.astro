@@ -1,0 +1,147 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import { brand, footerLinks, navigation, siteMeta } from '../data/site';
+
+interface Props {
+	title: string;
+	description?: string;
+	currentPath: string;
+	pageClass?: string;
+}
+
+const { title, description = siteMeta.description, currentPath, pageClass } = Astro.props;
+const pageTitle = title === siteMeta.title ? title : `${title} | ${siteMeta.title}`;
+
+function normalizePath(pathname: string) {
+	const withoutOrigin = pathname.replace(/^https?:\/\/[^/]+/, '');
+	const withSlash = withoutOrigin.startsWith('/') ? withoutOrigin : `/${withoutOrigin}`;
+	return withSlash.endsWith('/') ? withSlash : `${withSlash}/`;
+}
+
+const path = normalizePath(currentPath);
+const canonicalUrl = Astro.site ? new URL(path, Astro.site).toString() : path;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto+Condensed:wght@400;700&family=Roboto+Mono:wght@500&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#607384" />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalUrl} />
+		<ViewTransitions />
+		<title>{pageTitle}</title>
+	</head>
+	<body class:list={['site-body', pageClass]}>
+		<a class="skip-link" href="#primary">Skip to content</a>
+		<div class="site-shell">
+			<header class="site-header">
+				<div class="site-header__top">
+					<a class="brand-lockup" href="/" aria-label={siteMeta.title}>
+						<div class="brand-lockup__mark">
+							<img
+								src={brand.logo.src}
+								width={brand.logo.width}
+								height={brand.logo.height}
+								alt={siteMeta.title}
+							/>
+						</div>
+						<div class="brand-lockup__copy">
+							<p class="brand-lockup__title">
+								<span>Meta-analyses in</span>
+								<span>experimental philosophy</span>
+							</p>
+							<p class="brand-lockup__meta">{brand.affiliation}</p>
+						</div>
+					</a>
+
+					<div class="site-header__aside">
+						<div class="site-header__funding">
+							<p class="site-header__label">Funding</p>
+							<p>{brand.funding}</p>
+						</div>
+					</div>
+
+					<button
+						class="menu-toggle"
+						type="button"
+						aria-controls="site-nav"
+						aria-expanded="false"
+					>
+						Menu
+					</button>
+				</div>
+
+				<nav id="site-nav" class="site-nav" aria-label="Main navigation">
+					<ul>
+						{
+							navigation.map((item) => {
+								const isActive = normalizePath(item.href) === path;
+								return (
+									<li>
+										<a class:list={['nav-link', isActive && 'is-active']} href={item.href}>
+											<span>{item.label}</span>
+										</a>
+									</li>
+								);
+							})
+						}
+					</ul>
+				</nav>
+			</header>
+
+			<main id="primary" class="site-main">
+				<slot />
+			</main>
+
+			<footer class="site-footer">
+				{
+					footerLinks.map((item) => (
+						<a
+							href={item.href}
+							target={item.external ? '_blank' : undefined}
+							rel={item.external ? 'noreferrer' : undefined}
+						>
+							{item.label}
+						</a>
+					))
+				}
+			</footer>
+		</div>
+
+		<script is:inline>
+			(() => {
+				const bindMenu = () => {
+					const button = document.querySelector('.menu-toggle');
+					const nav = document.getElementById('site-nav');
+
+					if (!(button instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+					if (button.dataset.bound === 'true') return;
+
+					button.dataset.bound = 'true';
+					button.addEventListener('click', () => {
+						const isOpen = nav.classList.toggle('is-open');
+						button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+					});
+				};
+
+				bindMenu();
+				document.addEventListener('astro:page-load', bindMenu);
+			})();
+		</script>
+	</body>
+</html>

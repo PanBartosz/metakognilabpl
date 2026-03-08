@@ -1,0 +1,93 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {
+	blogEntries,
+	homeIntro,
+	latestActivities,
+	standaloneResources,
+	siteMeta,
+} from '../data/site';
+
+const featuredMaterials = standaloneResources.filter((item) => item.featuredHome);
+const latestBlogEntries = [...blogEntries].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+<SiteLayout title={siteMeta.title} currentPath="/">
+	<section class="home-primary-grid">
+		<article class="paper-panel home-panel home-panel--about">
+			<h1 class="home-panel__title">{homeIntro.title}</h1>
+			<p class:list={['lede', 'home-panel__lede']}>{homeIntro.lede}</p>
+			<p>{homeIntro.paragraphs[0]}</p>
+			<p>{homeIntro.paragraphs[1]}</p>
+			<p>{homeIntro.followUp}</p>
+			<ul class="feature-list">
+				{homeIntro.bullets.map((bullet) => <li>{bullet}</li>)}
+			</ul>
+			<a class="text-link" href={homeIntro.actions[0].href}>{homeIntro.actions[0].label}</a>
+		</article>
+
+		<article class="paper-panel home-panel home-panel--latest utility-panel">
+			<h2>Latest papers and conference talks</h2>
+			<div class="home-entry-stack">
+				{
+					latestActivities.map((item) => (
+						<article class="home-entry">
+							<div class="meta-row">
+								<span>{item.type}</span>
+								<span>{item.dateLabel}</span>
+							</div>
+							<h3>{item.title}</h3>
+							{item.venue ? <p class="home-entry__venue">{item.venue}</p> : null}
+							{item.summary ? <p>{item.summary}</p> : null}
+							{item.href ? (
+								<a class="text-link" href={item.href}>
+									{item.linkLabel ?? 'Open'}
+								</a>
+							) : null}
+						</article>
+					))
+				}
+			</div>
+			<a class="text-link" href="/front-page/outputs/">View all outputs</a>
+		</article>
+	</section>
+
+	<section class="home-secondary-grid">
+		<article class="paper-panel home-panel">
+			<h2>Current materials</h2>
+			<ul class="home-resource-list">
+				{
+					featuredMaterials.map((item) => (
+						<li class="home-resource-list__item">
+							<a href={item.href}>{item.title}</a>
+							<p>{item.description}</p>
+						</li>
+					))
+				}
+			</ul>
+			<a class="text-link" href="/front-page/resources/">View resources</a>
+		</article>
+
+		<article class="paper-panel home-panel">
+			<h2>Blog entries</h2>
+			<div class="home-entry-stack">
+				{
+					latestBlogEntries.map((entry) => (
+						<article class="home-entry">
+							<div class="meta-row">
+								<span>News</span>
+								<span>{entry.displayDate}</span>
+							</div>
+							<h3>{entry.title}</h3>
+							<p>{entry.excerpt}</p>
+							<a class="text-link" href={entry.href}>
+								{entry.href === '/espp2025/' ? 'Open conference page' : 'Read the update'}
+							</a>
+						</article>
+					))
+				}
+			</div>
+			<a class="text-link" href="/front-page/blog/">View all blog entries</a>
+		</article>
+	</section>
+</SiteLayout>
